@@ -25,4 +25,4 @@ yarn-error.log
 /uploads/
 
 # Otros archivos y directorios específicos de tu proyecto
-./backend/config/db.js
+/backend/config/db.js
