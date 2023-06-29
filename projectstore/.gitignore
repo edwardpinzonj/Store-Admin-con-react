@@ -22,6 +22,7 @@ yarn-error.log
 *.backup
 
 # Archivos de imagen generados
-/uploads/
+/projectstore/uploads/
 
 # Otros archivos y directorios específicos de tu proyecto
+/projectstore/backend/config/db.js
