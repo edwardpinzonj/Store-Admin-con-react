@@ -9,8 +9,8 @@ const permissionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  action: {
-    type: String,
+  actions: {
+    type: [String], // Array de strings
     required: true,
   },
   enabled: {
