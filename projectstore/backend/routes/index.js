@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../config/multerConfig");
 const permissionRoutes = require("./permissionRoutes");
 const rolesRoutes = require("./rolesRoutes");
 const userRoutes = require("./userRoutes");
@@ -10,8 +11,14 @@ const productRoutes = require("./productRoutes");
 router.use("/permissions", permissionRoutes);
 router.use("/roles", rolesRoutes);
 router.use("/users", userRoutes);
+// Middleware para el registro de solicitudes de ruta
+
 router.use("/product-brands", productBrandRoutes);
 router.use("/product-categories", productCategoryRoutes);
-router.use("/products", productRoutes);
 
+const cpUpload = upload.fields([
+  { name: "pictures", maxCount: 7 },
+  { name: "smPictures", maxCount: 7 },
+]);
+router.use("/products", cpUpload, productRoutes);
 module.exports = router;

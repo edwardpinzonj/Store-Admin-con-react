@@ -10,6 +10,35 @@ const createProductBrand = async (req, res) => {
   }
 };
 
+const getCountProductByBrands = async (req, res) => {
+  try {
+    const countProductsByBrand = await ProductBrand.aggregate([
+      {
+        $lookup: {
+          from: "products",
+          localField: "_id",
+          foreignField: "brands",
+          as: "products",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          Cantidad: { $size: "$products" },
+        },
+      },
+    ]);
+
+    res.status(200).json(countProductsByBrand);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "Error al obtener la cantidad de marcas por productos" });
+  }
+};
+
 const getProductBrands = async (req, res) => {
   try {
     const productBrands = await ProductBrand.find();
@@ -66,6 +95,7 @@ const deleteProductBrand = async (req, res) => {
 
 module.exports = {
   createProductBrand,
+  getCountProductByBrands,
   getProductBrands,
   getProductBrandById,
   updateProductBrand,

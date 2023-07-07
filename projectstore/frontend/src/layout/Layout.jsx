@@ -1,10 +1,21 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { handleLogout } from "../config/Logout";
 
 const Layout = ({ children }) => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [notifications, setNotifications] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Verificar si hay una sesión activa al cargar la vista
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const sidebarItems = [
     {
@@ -45,7 +56,7 @@ const Layout = ({ children }) => {
   ];
 
   const handleMenuToggle = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen((prevState) => !prevState);
   };
 
   const handleSearchChange = (e) => {
@@ -56,13 +67,20 @@ const Layout = ({ children }) => {
     // Implementar lógica para manejar la notificación seleccionada
   };
 
+  const handleLogoutClick = async () => {
+    await handleLogout();
+    setIsLoggedIn(false);
+    navigate("/");
+  };
   return (
     <div className="flex flex-col h-screen">
-      <header className="bg-gray-500 py-2 px-4">
-        {/* Aquí va el contenido del header */}
-      </header>
+      {isLoggedIn && (
+        <header className="bg-gray-500 py-2 px-4">
+          {/* Aquí va el contenido del header */}
+        </header>
+      )}
       <div className="flex flex-grow">
-        {isMenuOpen && (
+        {isLoggedIn && isMenuOpen && (
           <aside className="bg-gray-200 w-56">
             <nav>
               <ul className="py-4">
@@ -91,6 +109,14 @@ const Layout = ({ children }) => {
                     )}
                   </li>
                 ))}
+                <li className="pl-4 py-2">
+                  <button
+                    className="text-white focus:outline-none"
+                    onClick={handleLogoutClick}
+                  >
+                    Salir
+                  </button>
+                </li>
               </ul>
             </nav>
           </aside>
@@ -99,12 +125,14 @@ const Layout = ({ children }) => {
           <header className="bg-gray-500 py-2 px-4">
             <nav className="flex items-center justify-between">
               <div>
-                <button
-                  className="text-white focus:outline-none"
-                  onClick={handleMenuToggle}
-                >
-                  Menu
-                </button>
+                {isLoggedIn && (
+                  <button
+                    className="text-white focus:outline-none"
+                    onClick={handleMenuToggle}
+                  >
+                    Menu
+                  </button>
+                )}
               </div>
               <div>
                 <input

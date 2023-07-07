@@ -6,6 +6,11 @@ const variantSchema = new mongoose.Schema({
 });
 
 const productSchema = new mongoose.Schema({
+  sku: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   name: {
     type: String,
     required: true,
@@ -13,31 +18,30 @@ const productSchema = new mongoose.Schema({
   slug: {
     type: String,
     required: true,
-    unique: true,
   },
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "ProductCategory",
-  },
+  category: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ProductCategory",
+    },
+  ],
   pictures: [String],
   smPictures: [String],
   shortDesc: String,
   price: Number,
   salePrice: Number,
   vendor: String,
-  brands: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ProductBrand",
-    },
-  ],
+  brands: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "ProductBrand",
+  },
   review: String,
   ratings: Number,
   until: Date,
   stock: Number,
   top: Boolean,
   featured: Boolean,
-  new: Boolean,
+  isNewP: Boolean,
   variants: [variantSchema],
 });
 

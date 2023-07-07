@@ -23,6 +23,9 @@ yarn-error.log
 
 # Archivos de imagen generados
 /uploads/
+/backend/uploads/
+/CHATGPT/
 
 # Otros archivos y directorios específicos de tu proyecto
 /backend/config/db.js
+blackbox.config.json

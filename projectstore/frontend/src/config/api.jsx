@@ -1,7 +1,8 @@
 import axios from "axios";
+export const base = "http://localhost:3000";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api", // Reemplaza con la URL de tu backend
+  baseURL: `${base}/api`, // Reemplaza con la URL de tu backend
 });
 
 // Obtener el token de autorización del almacenamiento local (localStorage)

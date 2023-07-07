@@ -14,6 +14,7 @@ const Login = () => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
+      navigate("/dashboard");
     }
   }, []);
 
@@ -32,7 +33,7 @@ const Login = () => {
         setIsLoggedIn(true);
 
         // Redirigir al panel de control (dashboard)
-        navigate("/dashboard");
+        window.location.reload();
       } else {
         setError("Credenciales incorrectas. Inténtalo de nuevo.");
       }
@@ -41,24 +42,11 @@ const Login = () => {
     }
   };
 
-  const handleLogout = () => {
-    // Limpiar el token del almacenamiento local y establecer isLoggedIn en falso
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    localStorage.removeItem("userId");
-    setIsLoggedIn(false);
-  };
-
   if (isLoggedIn) {
     return (
       <div className="container mx-auto mt-4">
         <h1 className="text-2xl font-bold mb-4">Sesión activa</h1>
-        <button
-          className="bg-red-500 text-white rounded px-4 py-2"
-          onClick={handleLogout}
-        >
-          Cerrar sesión
-        </button>
+        <h2>Cargando...</h2>
       </div>
     );
   }

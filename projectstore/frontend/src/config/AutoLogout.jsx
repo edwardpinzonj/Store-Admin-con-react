@@ -1,27 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "./api";
-
-const handleLogout = async () => {
-  console.log("Logout");
-  // Limpiar el token del almacenamiento local y cualquier otra acción necesaria para cerrar la sesión
-  //Llamar al logout en el backend
-  try {
-    await api.post("/auth/logout");
-    console.log("Fin de la sesión automática");
-  } catch (error) {
-    console.log("Error en el cierre de sesión automático", error);
-  } finally {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    localStorage.removeItem("userId");
-  }
-};
+import { handleLogout } from "./Logout";
 
 const AutoLogout = () => {
   const timeoutRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const resetTimer = () => {
@@ -32,7 +14,7 @@ const AutoLogout = () => {
       timeoutRef.current = setTimeout(() => {
         handleLogout();
         setShowModal(true);
-      }, 0.5 * 60 * 1000);
+      }, 3 * 60 * 1000);
     };
 
     const handleActivity = () => {
@@ -58,7 +40,8 @@ const AutoLogout = () => {
 
   const closeModal = () => {
     setShowModal(false);
-    navigate("/"); // Redirigir al usuario a la página principal ("/")
+    window.location.reload();
+    // navigate("/"); // Redirigir al usuario a la página principal ("/")
   };
 
   return (

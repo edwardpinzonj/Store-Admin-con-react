@@ -1,6 +1,7 @@
 const { configureExpress, connectDB } = require("./config");
 const routes = require("./routes");
 const userAuthRoutes = require("./routes/userAuthRoutes");
+const expressListEndpoints = require("express-list-endpoints");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const app = configureExpress();
@@ -40,6 +41,10 @@ const authenticateToken = (req, res, next) => {
 app.use("/api/auth", userAuthRoutes);
 // Configuración de las rutas protegidas
 app.use("/api", authenticateToken, routes);
+
+// Obtén una lista de todas las rutas registradas
+//const allRoutes = expressListEndpoints(app);
+//console.log(allRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
